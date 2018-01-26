@@ -4,7 +4,7 @@
  + [Correctness(正确性)](#正确性)  
  + [Naming(命名)](#Naming)  
    - [Protocols(委托)](#Protocols)  
-   - [Enumerations(枚举)](#Enumerations)  
+   - [Enumerations(枚举)](#Enumerations)  
    - [Class Prefixes(类前缀)](#Class Prefixes)  
    - [Selectors(选择器)](#Selectors)  
    - [Generics(泛型)](#Generics)  
