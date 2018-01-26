@@ -1,6 +1,6 @@
-# swift-编码规范（中文）
+# swift-编码规范（中文）#
 
-## 目录
+## 目录 ##
  + [Correctness(正确性)](#正确性)  
  + [Naming(命名)](#Naming)  
    - [Protocols(委托)](#Protocols)  
@@ -42,7 +42,7 @@
  + [Copyright Statement](#Copyright Statement)  
  + [Smiley Face](#Smiley Face)  
  
- ### 正确性
+ ### 正确性 ###
  
  
    
