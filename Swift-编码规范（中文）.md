@@ -46,7 +46,7 @@
 将 warnings 视为 errors 。比如不要用 ++ 、-- 或 c 风格的循环或 string 型的 selectors 。
 ## 命名
 classes, structures, enumerations and protocols 等类型名字以首字母大写驼峰命名。变量、方法名以小写驼峰方式命名。
-### 推荐
+#### 推荐
 ```swift
 private let maximumWidgetCount = 100
 
@@ -55,7 +55,16 @@ class WidgetContainer {
   let widgetHeightPercentage = 0.85
 }
 ```
-### 不推荐
+#### 不推荐
+```swift
+let MAX_WIDGET_COUNT = 100
+
+class app_widgetContainer {
+  var wBut: UIButton
+  let wHeightPct = 0.85
+}
+```
+尽量避免“简称”和“缩略词”，通用缩略词应该整体大写或整体小写。
 
  
    
