@@ -3,13 +3,13 @@
 ## 目录
  + [Correctness(正确性)](#正确性)  
  + [Naming(命名)](#命名)  
-   - [Protocols(协议)](#协议)  
+   - [Protocols(协议命名)](#协议命名)  
    - [Enumerations(枚举)](#枚举)    
    - [Selectors(选择器)](#选择器)  
    - [Generics(泛型)](#泛型)  
    - [Language(语言)](#语言)
  + [Code Organization(代码组织)](#代码组织)  
-   - [Protocol Conformance(扩展)](#扩展)  
+   - [Protocol Conformance(协议实现)](#协议实现)  
    - [Unused Code(无用代码)](#无用代码)  
    - [Minimal Imports(最少引入)](#最少引入)  
  + [Spacing(空格)](#空格)  
@@ -92,7 +92,7 @@ class Counter {
   func incrementBy(amount: Int) { ... }
 }
 ```
-### 协议
+### 协议命名
 protocols是描述能力的应该以-ing, -able或 -ible结尾。如： Equatable, Resizing。
 ### 枚举
 每个枚举值用小写字母开始。
@@ -114,7 +114,7 @@ let sel = #selector(viewDidLoad)
 let sel = #selector(ViewController.viewDidLoad)
 ```
 ### 泛型
-泛型参数应该描述清楚所规定的泛型。当不确定泛型类型是才使用传统的大写字母 如T, U, or V表示泛型。
+泛型参数应该描述清楚所规定的泛型。当不确定泛型类型是才使用传统的大写字母 如`T`, `U`, or `V`表示泛型。
 #### 推荐
 ```swift
 struct Stack<Element> { ... }
@@ -130,6 +130,96 @@ func max<Thing: Comparable>(x: Thing, _ y: Thing) -> Thing
 ### 语音
 用美式英语拼写。
 ## 代码组织
+### 协议实现
+每个 protocol 的实现分别对应一个 extension 的方式实现。
+#### 推荐
+```swift
+class MyViewcontroller: UIViewController {
+  // class stuff here
+}
+
+// MARK: - UITableViewDataSource
+extension MyViewcontroller: UITableViewDataSource {
+  // table view data source methods
+}
+
+// MARK: - UIScrollViewDelegate
+extension MyViewcontroller: UIScrollViewDelegate {
+  // scroll view delegate methods
+}
+```
+#### 不推荐
+```swift
+class MyViewcontroller: UIViewController, UITableViewDataSource, UIScrollViewDelegate {
+  // all methods
+}
+```
+由于编译器不允许一个类重新申明 protocol 实现，因此，不是一直要求每个 protocols 都要分离出一个 extension.特别是当该 class 是个最终 class 或该 class 方法很少。  
+对UIKit view controllers，将lifecycle, custom accessors, and IBAction等方法单独放在一个 class extension 中。
+### 无用代码
+无用的code ，包括 Xcode 注释都应该被移除。空方法应该被移除。
+#### 推荐
+```swift
+override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  return Database.contacts.count
+}
+```
+#### 不推荐
+```swift
+override func didReceiveMemoryWarning() {
+   super.didReceiveMemoryWarning()
+  // Dispose of any resources that can be recreated.
+}
+
+override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+   // #warning Incomplete implementation, return the number of sections
+   return 1
+}
+
+override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  // #warning Incomplete implementation, return the number of rows
+  return Database.contacts.count
+}
+```
+### 最少引入
+不要引用`UIKit` 和 `Foundation`
+## 空格
+1. 缩进用4个空格而不是用tab调整对齐。用命令Ctr+I重新排列代码。
+#### 推荐
+```swift
+if user.isHappy {
+  // Do something
+} else {
+  // Do something else
+}
+```
+#### 不推荐
+```swift
+if user.isHappy
+{
+  // Do something
+}
+else {
+  // Do something else
+}
+```
+2. 每两个方法之间空一行。
+3. 冒号左边无空格，右边有一个空格。? : 和 空字典[:] 例外。
+#### 推荐
+```swift
+class TestDatabase: Database {
+  var data: [String: CGFloat] = ["A": 1.2, "B": 3.2]
+}
+```
+#### 不推荐
+```swift
+class TestDatabase : Database {
+  var data :[String:CGFloat] = ["A" : 1.2, "B":3.2]
+}
+```
+## 注释
+必要的时候添加注释注明为什么。避免一大段注释解释一行代码，代码应该有自我解释性。
+## 类和结构体
 
 
 
