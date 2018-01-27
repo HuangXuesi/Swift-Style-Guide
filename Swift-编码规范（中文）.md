@@ -5,8 +5,8 @@
  + [Naming(命名)](#Naming)  
    - [Protocols(委托)](#Protocols)  
    - [Enumerations(枚举)](#Enumerations)  
-   - [Class Prefixes(类前缀)](#类前缀)  
-   - [Selectors(选择器)](#Selectors)  
+   - [Class Prefixes(类前缀)](#Class  Prefixes(类前缀))  
+   - [Selectors(选择器)](#Selectors)  
    - [Generics(泛型)](#Generics)  
    - [Language(语言)](#Language)
  + [Code Organization(代码组织)](#Code Organization)  
@@ -42,9 +42,9 @@
  + [Copyright Statement](#Copyright Statement)  
  + [Smiley Face](#Smiley Face)  
  
- ## 正确性 Correctness
+ ## 正确性
  
- ## 类前缀
+ ## Class  Prefixes(类前缀)
  
  
    
