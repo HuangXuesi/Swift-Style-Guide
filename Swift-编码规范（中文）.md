@@ -47,6 +47,15 @@
 ## 命名
 classes, structures, enumerations and protocols 等类型名字以首字母大写驼峰命名。变量、方法名以小写驼峰方式命名。
 ### 推荐
+"""
+private let maximumWidgetCount = 100
+
+class WidgetContainer {
+  var widgetButton: UIButton
+  let widgetHeightPercentage = 0.85
+}
+"""
+### 不推荐
 
  
    
