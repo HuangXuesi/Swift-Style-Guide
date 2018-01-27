@@ -93,3 +93,16 @@ class Counter {
   func incrementBy(amount: Int) { ... }
 }
 ```
+### 协议
+protocols是描述能力的应该以-ing, -able或 -ible结尾。如： Equatable, Resizing。
+### 枚举
+每个枚举值用小写字母开始。
+```swift
+enum Shape {
+  case rectangle
+  case square
+  case rightTriangle
+  case equilateralTriangle
+}
+```
+
