@@ -45,7 +45,7 @@
 ## 正确性
 将 warnings 视为 errors 。比如不要用 ++ 、-- 或 c 风格的循环或 string 型的 selectors 。
 ## 命名
-classes, structures, enumerations and protocols 等类型名字以首字母大写驼峰命名。变量、方法名以小写驼峰方式命名。
+1. classes, structures, enumerations and protocols 等类型名字以首字母大写驼峰命名。变量、方法名以小写驼峰方式命名。
 #### 推荐
 ```swift
 private let maximumWidgetCount = 100
@@ -64,7 +64,32 @@ class app_widgetContainer {
   let wHeightPct = 0.85
 }
 ```
-尽量避免“简称”和“缩略词”，通用缩略词应该整体大写或整体小写。
+2. 尽量避免“简称”和“缩略词”，通用缩略词应该整体大写或整体小写。
+#### 推荐
+```swift
+let urlString: URLString
+let userID: UserID
+```
+#### 不推荐
+```swift
+let uRLString: UrlString
+let userId: UserId
+```
+3. 初始化方法或其他方法，每个参数前都应该有明确说明。
+```swift
+func dateFromString(dateString: String) -> NSDate
+func convertPointAt(column column: Int, row: Int) -> CGPoint
+func timedAction(afterDelay delay: NSTimeInterval, perform action: SKAction) -> SKAction!
 
- 
-   
+// 调用方式:
+dateFromString("2014-03-14")
+convertPointAt(column: 42, row: 13)
+timedAction(afterDelay: 1.0, perform: someOtherAction)
+```
+4. 遵循 Apple 官方习俗为方法命名。
+```swift
+class Counter {
+  func combineWith(otherCounter: Counter, options: Dictionary?) { ... }
+  func incrementBy(amount: Int) { ... }
+}
+```
