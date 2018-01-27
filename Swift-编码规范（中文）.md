@@ -4,8 +4,7 @@
  + [Correctness(正确性)](#正确性)  
  + [Naming(命名)](#命名)  
    - [Protocols(协议)](#协议)  
-   - [Enumerations(枚举)](#枚举)  
-   - [Class Prefixes(类前缀)](#类前缀)  
+   - [Enumerations(枚举)](#枚举)    
    - [Selectors(选择器)](#选择器)  
    - [Generics(泛型)](#泛型)  
    - [Language(语言)](#语言)
@@ -105,4 +104,33 @@ enum Shape {
   case equilateralTriangle
 }
 ```
+### 选择器
+#### 推荐
+```swift
+let sel = #selector(viewDidLoad)
+```
+#### 不推荐
+```swift
+let sel = #selector(ViewController.viewDidLoad)
+```
+### 泛型
+泛型参数应该描述清楚所规定的泛型。当不确定泛型类型是才使用传统的大写字母 如T, U, or V表示泛型。
+#### 推荐
+```swift
+struct Stack<Element> { ... }
+func writeTo<Target: OutputStream>(inout target: Target)
+func max<T: Comparable>(x: T, _ y: T) -> T
+```
+#### 不推荐
+```swift
+struct Stack<T> { ... }
+func writeTo<target: OutputStream>(inout t: target)
+func max<Thing: Comparable>(x: Thing, _ y: Thing) -> Thing
+```
+### 语音
+用美式英语拼写。
+## 代码组织
+
+
+
 
