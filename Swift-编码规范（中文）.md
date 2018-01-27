@@ -3,13 +3,13 @@
 ## 目录
  + [Correctness(正确性)](#正确性)  
  + [Naming(命名)](#命名)  
-   - [Protocols(协议命名)](#协议命名)  
+   - [Protocols(协议命名)](#协议命名)  
    - [Enumerations(枚举)](#枚举)    
    - [Selectors(选择器)](#选择器)  
    - [Generics(泛型)](#泛型)  
    - [Language(语言)](#语言)
  + [Code Organization(代码组织)](#代码组织)  
-   - [Protocol Conformance(协议实现)](#协议实现)  
+   - [Protocol Conformance(协议实现)](#协议实现)  
    - [Unused Code(无用代码)](#无用代码)  
    - [Minimal Imports(最少引入)](#最少引入)  
  + [Spacing(空格)](#空格)  
@@ -19,7 +19,7 @@
    - [Protocol Conformance(协议一致性)](#协议一致性)  
    - [Computed Properties(计算属性)](#计算属性)  
    - [Final(final关键字)](#final关键字)
- + [Function Declarations(函数定义)](#函数定义)  
+ + [Function Declarations(函数声明)](#函数声明)  
  + [Closure Expressions(闭包表达式)](#闭包表达式)
  + [Types(类型)](#类型)
    - [Constants(常量)](#常量)  
@@ -220,6 +220,149 @@ class TestDatabase : Database {
 ## 注释
 必要的时候添加注释注明为什么。避免一大段注释解释一行代码，代码应该有自我解释性。
 ## 类和结构体
+#### 用哪一个？
+struct 是值类型，当你不需要唯一身份的时候用struct.arrayOne = [a, b, c] 和arrayTwo = [a, b, c]意义是一样的。不需要在乎他们是否是同一个 array。这就是用 struct 的原因。  
+class 是引用类型。需要唯一标识或有生命周期的才用 class。你可以把一个人定义为一个 class 实例，因为每个人都是不一样的。仅仅只有名字和生日相同的两人也不是同一个人。  
+有时候，应该是 struct 确是 class ,如以下情况 `NSDate` `NSSet`。  
+#### 示例
+1. 声明的类型用 `:` 衔接在后面。  
+2. 多个变量公用关键字 `var` `let` 可以声明在同一行。
+3. 缩进 `getter` `setter` `willSet` `didSet`。
+4. 变量前不需要添加 `internal` 关键字，因为这是默认的。同样不需要重复写重写方法内的代码。
+```swift
+class Circle: Shape {
+  var x: Int, y: Int
+  var radius: Double
+  var diameter: Double {
+    get {
+      return radius * 2
+    }
+    set {
+      radius = newValue / 2
+    }
+  }
+
+  init(x: Int, y: Int, radius: Double) {
+    self.x = x
+    self.y = y
+    self.radius = radius
+  }
+
+  convenience init(x: Int, y: Int, diameter: Double) {
+    self.init(x: x, y: y, radius: diameter / 2)
+  }
+
+  func describe() -> String {
+    return "I am a circle at \(centerString()) with an area of \(computeArea())"
+  }
+
+  override func computeArea() -> Double {
+    return M_PI * radius * radius
+  }
+
+  private func centerString() -> String {
+    return "(\(x),\(y))"
+  }
+}
+```
+### self用法
+避免使用 `self` 去调用属性或方法，仅在初始化方法的参数名和属性名相同时用`self`。
+```swift
+class BoardLocation {
+  let row: Int, column: Int
+
+  init(row: Int, column: Int) {
+    self.row = row
+    self.column = column
+    
+    let closure = {
+      print(self.row)
+    }
+  }
+}
+```
+### 计算属性
+如果一个计算属性的返回值很简单，可以省去 `get{}` 。有 `set{}` 就一定要有 `get{}`。
+#### 推荐
+```swift
+var diameter: Double {
+  return radius * 2
+}
+```
+#### 不推荐
+```swift
+var diameter: Double {
+  get {
+    return radius * 2
+  }
+}
+```
+### final关键字
+当你不希望该类被继承时，用 `final`。
+```swift
+// Turn any generic type into a reference type using this Box class.
+final class Box<T> {
+  let value: T 
+  init(_ value: T) {
+    self.value = value
+  }
+}
+```
+## 函数声明
+保持短方法名在一行，如果方法名换行，下一行添加一个缩进距离。
+```swift
+func reticulateSplines(spline: [Double], adjustmentFactor: Double,
+    translateConstant: Int, comment: String) -> Bool {
+  // reticulate code goes here
+}
+```
+## 闭包表达式
+1. 闭包放在最后面。
+#### 推荐
+```swift
+UIView.animateWithDuration(1.0) {
+  self.myView.alpha = 0
+}
+
+UIView.animateWithDuration(1.0,
+  animations: {
+    self.myView.alpha = 0
+  },
+  completion: { finished in
+    self.myView.removeFromSuperview()
+  }
+)
+```
+#### 不推荐
+```swift
+UIView.animateWithDuration(1.0, animations: {
+  self.myView.alpha = 0
+})
+
+UIView.animateWithDuration(1.0,
+  animations: {
+    self.myView.alpha = 0
+  }) { f in
+    self.myView.removeFromSuperview()
+}
+```
+2. 对单行的闭包，返回值可以用含蓄方式。
+```swift
+attendeeList.sort { a, b in
+  a > b
+}
+```
+3. 链式方法后面跟随闭包，方法名应该清晰明了。
+```swift
+let value = numbers.map { $0 * 2 }.filter { $0 % 3 == 0 }.indexOf(90)
+
+let value = numbers
+   .map {$0 * 2}
+   .filter {$0 > 50}
+   .map {$0 + 10}
+```
+
+
 
 
 
