@@ -361,6 +361,35 @@ let value = numbers
    .filter {$0 > 50}
    .map {$0 + 10}
 ```
+## 类型
+如无必要，用 swift 类型，不要用 oc 类型。  
+在Sprite Kit编程中，用CGFloat以便代码更简明，避免各种转换。
+#### 推荐
+```swift
+let width = 120.0                                    // Double
+let widthString = (width as NSNumber).stringValue    // String
+```
+#### 不推荐
+```swift
+let width: NSNumber = 120.0                          // NSNumber
+let widthString: NSString = width.stringValue        // NSString
+```
+### 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
