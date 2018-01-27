@@ -43,8 +43,10 @@
  + [Smiley Face](#SmileyFace)  
  
 ## 正确性
-将 warnings 视为 errors。比如不要用 ++ 、-- 或 c 风格的循环或 string 型的 selectors。
+将 warnings 视为 errors 。比如不要用 ++ 、-- 或 c 风格的循环或 string 型的 selectors 。
 ## 命名
 classes, structures, enumerations and protocols 等类型名字以首字母大写驼峰命名。变量、方法名以小写驼峰方式命名。
+### 推荐
+
  
    
