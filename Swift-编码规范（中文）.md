@@ -37,10 +37,8 @@
  + [Golden Path(黄金路线)](#黄金路线)  
    - [Failing Guards(失败返回)](#失败返回)  
  + [Semicolons(分号)](#分号)  
- + [Parentheses(圆括号)](#圆括号)  
- + [Copyright Statement](#CopyrightStatement)  
- + [Smiley Face](#SmileyFace)  
- 
+ + [Parentheses(圆括号)](#圆括号)  
+  
 ## 正确性
 将 warnings 视为 errors 。比如不要用 ++ 、-- 或 c 风格的循环或 string 型的 selectors 。
 ## 命名
@@ -374,13 +372,275 @@ let widthString = (width as NSNumber).stringValue    // String
 let width: NSNumber = 120.0                          // NSNumber
 let widthString: NSString = width.stringValue        // NSString
 ```
-### 
+### 常量
+常量用 `let`,变量用`var`。你可以将常量定义到一个类型中而不是作为实例的类型属性。类型属性用`static let`。
+#### 推荐
+```swift
+enum Math {
+  static let e  = 2.718281828459045235360287
+  static let pi = 3.141592653589793238462643
+}
 
+radius * Math.pi * 2 // circumference
+```
+#### 不推荐
+```swift
+let e  = 2.718281828459045235360287  // pollutes global namespace
+let pi = 3.141592653589793238462643
 
+radius * pi * 2 // is pi instance data or a global constant?
+```
+### 静态方法和类型属性
+`static`方法和类型的功能类似全局函数和全局变量。
+### 可选型
+1. 声明一个函数的某个参数可以为 nil 时，用`？`,当你确定某个变量在使用时已经确定不是 nil 时，在后面加`!`  
+2. 命名一个 `optional` 变量，避免使用`optionalString` 或 `maybeView`，因为他们已经在声明时体现出来了。`optional` 绑定，使用原始名称而不是`unwrappedView` 或 `actualLabel`。
+#### 推荐
+```swift
+var subview: UIView?
+var volume: Double?
 
+// later on...
+if let subview = subview, volume = volume {
+  // do something with unwrapped subview and volume
+}
+```
+#### 不推荐
+```swift
+var optionalSubview: UIView?
+var volume: Double?
 
+if let unwrappedSubview = optionalSubview {
+  if let realVolume = volume {
+    // do something with unwrappedSubview and realVolume
+  }
+}
+```
+### 结构体初始化
+#### 推荐
+```swift
+let bounds = CGRect(x: 40, y: 20, width: 120, height: 80)
+let centerPoint = CGPoint(x: 96, y: 42)
+```
+#### 不推荐
+```swift
+let bounds = CGRectMake(40, 20, 120, 80)
+let centerPoint = CGPointMake(96, 42)
+```
+### 懒加载
+考虑使用懒加载来更好地控制对象的生命周期。这在UIViewController中尤其适用，它会延迟加载视图。
+```swift
+lazy var locationManager: CLLocationManager = self.makeLocationManager()
 
+private func makeLocationManager() -> CLLocationManager {
+  let manager = CLLocationManager()
+  manager.desiredAccuracy = kCLLocationAccuracyBest
+  manager.delegate = self
+  manager.requestAlwaysAuthorization()
+  return manager
+}
+```
+### 类型引用
+#### 推荐
+```swift
+let message = "Click the button"
+let currentBounds = computeViewBounds()
+var names = ["Mic", "Sam", "Christine"]
+let maximumWidth: CGFloat = 106.5
 
+var names: [String] = []
+var lookup: [String: Int] = [:]
+```
+#### 不推荐
+```swift
+let message: String = "Click the button"
+let currentBounds: CGRect = computeViewBounds()
+let names = [String]()
+
+var names = [String]()
+var lookup = [String: Int]()
+```
+### 语法
+推荐用短语义声明。
+#### 推荐
+```swift
+var deviceModels: [String]
+var employees: [Int: String]
+var faxNumber: Int?
+```
+#### 不推荐
+```swift
+var deviceModels: Array<String>
+var employees: Dictionary<Int, String>
+var faxNumber: Optional<Int>
+```
+## 函数和方法
+1. class 或类型以外的自由函数应该单独使用。如果可以，用方法而不是函数。这样会更容易获得和发现。 
+#### 推荐
+```swift
+let sorted = items.mergeSort()  // easily discoverable
+rocket.launch()  // clearly acts on the model
+```
+#### 不推荐
+```swift
+let sorted = mergeSort(items)  // hard to discover
+launch(&rocket)
+```
+2. 自由函数不应该跟任何类型或实例关联。
+```swift
+let tuples = zip(a, b)  // feels natural as a free function (symmetry)
+let value = max(x,y,z)  // another free function that feels natural
+```
+## 内存管理
+代码尽量避免循环引用，避免强引用，用`weak`和`unowned`引用。用值类型避免循环引用。
+### 扩展声明周期
+用`[weak self]`和`guard let strongSelf = self else { return }`模式扩展生命周期。用`[weak self]`比`[unowned self]`更好。
+#### 推荐
+```swift
+resource.request().onComplete { [weak self] response in
+  guard let strongSelf = self else { return }
+  let model = strongSelf.updateModel(response)
+  strongSelf.updateUI(model)
+}
+```
+#### 不推荐
+```swift
+// might crash if self is released before response returns
+resource.request().onComplete { [unowned self] response in
+  let model = self.updateModel(response)
+  self.updateUI(model)
+}
+```
+```swift
+// deallocate could happen between updating the model and updating UI
+resource.request().onComplete { [weak self] response in
+  let model = self?.updateModel(response)
+  self?.updateUI(model)
+}
+```
+## 访问控制
+
+## 控制流
+更推荐`for-in`而不是`while-condition-increment`。
+#### 推荐
+```swift
+for _ in 0..<3 {
+  print("Hello three times")
+}
+
+for (index, person) in attendeeList.enumerate() {
+  print("\(person) is at position #\(index)")
+}
+
+for index in 0.stride(to: items.count, by: 2) {
+  print(index)
+}
+
+for index in (0...3).reverse() {
+  print(index)
+}
+```
+#### 不推荐
+```swift
+var i = 0
+while i < 3 {
+  print("Hello three times")
+  i += 1
+}
+
+var i = 0
+while i < attendeeList.count {
+  let person = attendeeList[i]
+  print("\(person) is at position #\(i)")
+  i += 1
+}
+```
+## 黄金路线
+1. 多个条件判断时，不要多个`if`嵌套，用`guard`。
+#### 推荐
+```swift
+func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies {
+
+  guard let context = context else { throw FFTError.noContext }
+  guard let inputData = inputData else { throw FFTError.noInputData }
+    
+  // use context and input to compute the frequencies
+    
+  return frequencies
+}
+```
+#### 不推荐
+```swift
+func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies {
+
+  if let context = context {
+    if let inputData = inputData {
+      // use context and input to compute the frequencies
+
+      return frequencies
+    }
+    else {
+      throw FFTError.noInputData
+    }
+  }
+  else {
+    throw FFTError.noContext
+  }
+}
+```
+2. 判断多个`optional`时，用`guard`或`if let`。减少嵌套。
+#### 推荐
+```swift
+guard let number1 = number1, number2 = number2, number3 = number3 else { fatalError("impossible") }
+// do something with numbers
+```
+#### 不推荐
+```swift
+if let number1 = number1 {
+  if let number2 = number2 {
+    if let number3 = number3 {
+      // do something with numbers
+    }
+    else {
+      fatalError("impossible")
+    }
+  }
+  else {
+    fatalError("impossible")
+  }
+}
+else {
+  fatalError("impossible")
+}
+```
+### 失败返回
+失败返回要求以某种方式退出。一般可以用`return`, `throw`, `break`, `continue`, `fatalError()`。避免大量代码。
+## 分号
+swift不要求写`;`,仅仅在你把多个语句写在同一行时才要求`;`  
+不要把多个状态语句写在同一行  
+`for-conditional-increment`才会将多个语句写在同一行。但是 swift 推荐用`for-in`。
+#### 推荐
+```swift
+let swift = "not a scripting language"
+```
+#### 不推荐
+```swift
+let swift = "not a scripting language";
+```
+## 圆括号
+圆括号也不是必须的
+#### 推荐
+```swift
+if name == "Hello" {
+  print("World")
+}
+```
+#### 不推荐
+```swift
+if (name == "Hello") {
+  print("World")
+}
+```
 
 
 
