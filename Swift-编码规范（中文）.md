@@ -91,7 +91,7 @@ class Counter {
 }
 ```
 ### 协议命名
-protocols是描述能力的应该以-ing, -able或 -ible结尾。如： Equatable, Resizing。
+protocols是描述能力的应该以-ing, -able或 -ible结尾。如：Equatable, Resizing。
 ### 枚举
 每个枚举值用小写字母开始。
 ```swift
@@ -112,7 +112,7 @@ let sel = #selector(viewDidLoad)
 let sel = #selector(ViewController.viewDidLoad)
 ```
 ### 泛型
-泛型参数应该描述清楚所规定的泛型。当不确定泛型类型是才使用传统的大写字母 如`T`, `U`, or `V`表示泛型。
+泛型参数应该描述清楚所规定的泛型。当不确定泛型类型是才使用传统的大写字母 如 `T` , `U` , or `V` 表示泛型。
 #### 推荐
 ```swift
 struct Stack<Element> { ... }
@@ -155,7 +155,7 @@ class MyViewcontroller: UIViewController, UITableViewDataSource, UIScrollViewDel
 由于编译器不允许一个类重新申明 protocol 实现，因此，不是一直要求每个 protocols 都要分离出一个 extension.特别是当该 class 是个最终 class 或该 class 方法很少。  
 对UIKit view controllers，将lifecycle, custom accessors, and IBAction等方法单独放在一个 class extension 中。
 ### 无用代码
-无用的code ，包括 Xcode 注释都应该被移除。空方法应该被移除。
+无用的 code ，包括 Xcode 注释都应该被移除。空方法应该被移除。
 #### 推荐
 ```swift
 override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -180,7 +180,7 @@ override func tableView(tableView: UITableView, numberOfRowsInSection section: I
 }
 ```
 ### 最少引入
-不要引用`UIKit` 和 `Foundation`
+不要引用 `UIKit` 和 `Foundation` 。
 ## 空格
 1. 缩进用4个空格而不是用tab调整对齐。用命令Ctr+I重新排列代码。
 #### 推荐
@@ -202,7 +202,7 @@ else {
 }
 ```
 2. 每两个方法之间空一行。
-3. 冒号左边无空格，右边有一个空格。? : 和 空字典[:] 例外。
+3. 冒号左边无空格，右边有一个空格。 `? :` 和 空字典 `[:]` 例外。
 #### 推荐
 ```swift
 class TestDatabase: Database {
@@ -219,9 +219,9 @@ class TestDatabase : Database {
 必要的时候添加注释注明为什么。避免一大段注释解释一行代码，代码应该有自我解释性。
 ## 类和结构体
 #### 用哪一个？
-struct 是值类型，当你不需要唯一身份的时候用struct.arrayOne = [a, b, c] 和arrayTwo = [a, b, c]意义是一样的。不需要在乎他们是否是同一个 array。这就是用 struct 的原因。  
+struct 是值类型，当你不需要唯一身份的时候用 `struct.arrayOne = [a, b, c]` 和 `arrayTwo = [a, b, c]` 意义是一样的。不需要在乎他们是否是同一个 array。这就是用 struct 的原因。  
 class 是引用类型。需要唯一标识或有生命周期的才用 class。你可以把一个人定义为一个 class 实例，因为每个人都是不一样的。仅仅只有名字和生日相同的两人也不是同一个人。  
-有时候，应该是 struct 确是 class ,如以下情况 `NSDate` `NSSet`。  
+有时候，应该是 struct 确是 class ,如以下情况 `NSDate` `NSSet` 。  
 #### 示例
 1. 声明的类型用 `:` 衔接在后面。  
 2. 多个变量公用关键字 `var` `let` 可以声明在同一行。
@@ -264,7 +264,7 @@ class Circle: Shape {
 }
 ```
 ### self用法
-避免使用 `self` 去调用属性或方法，仅在初始化方法的参数名和属性名相同时用`self`。
+避免使用 `self` 去调用属性或方法，仅在初始化方法的参数名和属性名相同时用 `self` 。
 ```swift
 class BoardLocation {
   let row: Int, column: Int
@@ -280,7 +280,7 @@ class BoardLocation {
 }
 ```
 ### 计算属性
-如果一个计算属性的返回值很简单，可以省去 `get{}` 。有 `set{}` 就一定要有 `get{}`。
+如果一个计算属性的返回值很简单，可以省去 `get{}` 。有 `set{}` 就一定要有 `get{}` 。
 #### 推荐
 ```swift
 var diameter: Double {
@@ -296,7 +296,7 @@ var diameter: Double {
 }
 ```
 ### final关键字
-当你不希望该类被继承时，用 `final`。
+当你不希望该类被继承时，用 `final` 。
 ```swift
 // Turn any generic type into a reference type using this Box class.
 final class Box<T> {
@@ -373,7 +373,7 @@ let width: NSNumber = 120.0                          // NSNumber
 let widthString: NSString = width.stringValue        // NSString
 ```
 ### 常量
-常量用 `let`,变量用`var`。你可以将常量定义到一个类型中而不是作为实例的类型属性。类型属性用`static let`。
+常量用 `let` ,变量用 `var` 。你可以将常量定义到一个类型中而不是作为实例的类型属性。类型属性用 `static let` 。
 #### 推荐
 ```swift
 enum Math {
@@ -391,10 +391,10 @@ let pi = 3.141592653589793238462643
 radius * pi * 2 // is pi instance data or a global constant?
 ```
 ### 静态方法和类型属性
-`static`方法和类型的功能类似全局函数和全局变量。
+static 方法和类型的功能类似全局函数和全局变量。
 ### 可选型
-1. 声明一个函数的某个参数可以为 nil 时，用`？`,当你确定某个变量在使用时已经确定不是 nil 时，在后面加`!`  
-2. 命名一个 `optional` 变量，避免使用`optionalString` 或 `maybeView`，因为他们已经在声明时体现出来了。`optional` 绑定，使用原始名称而不是`unwrappedView` 或 `actualLabel`。
+1. 声明一个函数的某个参数可以为 nil 时，用 `？` ,当你确定某个变量在使用时已经确定不是 nil 时，在后面加 `!` 。  
+2. 命名一个 `optional` 变量，避免使用 `optionalString` 或 `maybeView` ，因为他们已经在声明时体现出来了。 `optional` 绑定，使用原始名称而不是 `unwrappedView` 或 `actualLabel` 。
 #### 推荐
 ```swift
 var subview: UIView?
@@ -492,9 +492,9 @@ let tuples = zip(a, b)  // feels natural as a free function (symmetry)
 let value = max(x,y,z)  // another free function that feels natural
 ```
 ## 内存管理
-代码尽量避免循环引用，避免强引用，用`weak`和`unowned`引用。用值类型避免循环引用。
+代码尽量避免循环引用，避免强引用，用 weak 和 unowned 引用。用值类型避免循环引用。
 ### 扩展声明周期
-用`[weak self]`和`guard let strongSelf = self else { return }`模式扩展生命周期。用`[weak self]`比`[unowned self]`更好。
+用 `[weak self]` 和 `guard let strongSelf = self else { return }` 模式扩展生命周期。用 `[weak self]` 比 `[unowned self]` 更好。
 #### 推荐
 ```swift
 resource.request().onComplete { [weak self] response in
@@ -521,7 +521,7 @@ resource.request().onComplete { [weak self] response in
 ## 访问控制
 
 ## 控制流
-更推荐`for-in`而不是`while-condition-increment`。
+更推荐 `for-in` 而不是 `while-condition-increment` 。
 #### 推荐
 ```swift
 for _ in 0..<3 {
@@ -556,7 +556,7 @@ while i < attendeeList.count {
 }
 ```
 ## 黄金路线
-1. 多个条件判断时，不要多个`if`嵌套，用`guard`。
+1. 多个条件判断时，不要多个 `if` 嵌套，用 `guard` 。
 #### 推荐
 ```swift
 func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies {
@@ -588,7 +588,7 @@ func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies 
   }
 }
 ```
-2. 判断多个`optional`时，用`guard`或`if let`。减少嵌套。
+2. 判断多个 `optional` 时，用 `guard` 或 `if let` 。减少嵌套。
 #### 推荐
 ```swift
 guard let number1 = number1, number2 = number2, number3 = number3 else { fatalError("impossible") }
@@ -614,11 +614,11 @@ else {
 }
 ```
 ### 失败返回
-失败返回要求以某种方式退出。一般可以用`return`, `throw`, `break`, `continue`, `fatalError()`。避免大量代码。
+失败返回要求以某种方式退出。一般可以用 `return` , `throw` , `break` , `continue` , `fatalError()` 。避免大量代码。
 ## 分号
 swift不要求写`;`,仅仅在你把多个语句写在同一行时才要求`;`  
 不要把多个状态语句写在同一行  
-`for-conditional-increment`才会将多个语句写在同一行。但是 swift 推荐用`for-in`。
+`for-conditional-increment` 才会将多个语句写在同一行。但是 swift 推荐用 `for-in` 。
 #### 推荐
 ```swift
 let swift = "not a scripting language"
@@ -641,18 +641,3 @@ if (name == "Hello") {
   print("World")
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
